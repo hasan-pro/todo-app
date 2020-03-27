@@ -84,3 +84,7 @@
       res.redirect('/')
     })
   })
+
+  app.get('/create-item', (req, res) => {
+    res.send('<h3>Are you lost? Could not found what you are looking for.</h3>')
+  });
