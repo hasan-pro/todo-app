@@ -1,0 +1,28 @@
+{
+  "name": "todo-app",
+  "version": "1.0.0",
+  "description": "'first full-stack app development'",
+  "main": "server.js",
+  "scripts": {
+    "watch": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hasan-pro/todo-app.git"
+  },
+  "author": "'Mahady hasan'",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hasan-pro/todo-app/issues"
+  },
+  "homepage": "https://github.com/hasan-pro/todo-app#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongodb": "^3.5.5"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
+}
