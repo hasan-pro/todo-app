@@ -9,7 +9,10 @@
   let db;
 
   // connect to mongodb
-  mongodb.connect(uri, {useNewUrlParser: true, useUnifiedTopology: true}, (err, client) => {
+  mongodb.connect(uri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  }, (err, client) => {
     if (err) console.log(err)
 
     db = client.db();
@@ -21,14 +24,16 @@
 
 
   app.use(express.json())
-  app.use(express.urlencoded({extended: true}))
+  app.use(express.urlencoded({
+    extended: true
+  }))
 
 
   app.get('/', (req, res) => {
-      db.collection('items').find().toArray((err, items) => {
-        if (err) console.log(err)
+    db.collection('items').find().toArray((err, items) => {
+      if (err) console.log(err)
 
-        res.send(`
+      res.send(`
           <!DOCTYPE html>
           <html>
           <head>
@@ -67,13 +72,15 @@
           </body>
           </html>
           `)
-      })
+    })
 
   })
 
 
   app.post('/create-item', (req, res) => {
-    db.collection('items').insertOne({text: req.body.item}, () => {
+    db.collection('items').insertOne({
+      text: req.body.item
+    }, () => {
       res.redirect('/')
     })
   })
