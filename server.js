@@ -5,8 +5,9 @@
   const app = express()
 
 
-  const port = 3000;
+  const port = 5500;
   let db;
+  app.use(express.static('public'))
 
   // connect to mongodb
   mongodb.connect(uri, {
@@ -27,6 +28,7 @@
   app.use(express.urlencoded({
     extended: true
   }))
+
 
 
   app.get('/', (req, res) => {
@@ -60,7 +62,7 @@
                   return `<li class="list-group-item list-group-item-action d-flex align-items-center justify-content-between">
                             <span class="item-text">${item.text}</span>
                             <div>
-                              <button class="edit-me btn btn-secondary btn-sm mr-1">Edit</button>
+                              <button data-id="${item._id}" class="edit-me btn btn-secondary btn-sm mr-1">Edit</button>
                               <button class="delete-me btn btn-danger btn-sm">Delete</button>
                             </div>
                         </li>`
@@ -69,6 +71,9 @@
 
           </div>
 
+          <!-To enable axios library->
+          <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+          <script src="browser.js"></script>
           </body>
           </html>
           `)
@@ -85,6 +90,8 @@
     })
   })
 
-  app.get('/create-item', (req, res) => {
-    res.send('<h3>Are you lost? Could not found what you are looking for.</h3>')
-  });
+  app.post('/update-item', (req, res) => {
+    db.collection('items').findOneAndUpdate({_id: new mongodb.ObjectId(req.body.id)}, {$set: {text: req.body.text}}, () => {
+      res.send('success')
+    })
+  })
