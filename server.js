@@ -6,10 +6,12 @@
 
 
   const port = 5500;
-  let db;
+
   app.use(express.static('public'))
 
   // connect to mongodb
+
+  let db;
   mongodb.connect(uri, {
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -26,7 +28,7 @@
 
   app.use(express.json())
   app.use(express.urlencoded({
-    extended: true
+    extended: false
   }))
 
 
@@ -49,9 +51,9 @@
             <h1 class="display-4 text-center py-1">To-Do App</h1>
 
             <div class="jumbotron p-3 shadow-sm">
-              <form method="POST" action="/create-item">
+              <form>
                 <div class="d-flex align-items-center">
-                  <input name="item" autofocus autocomplete="off" class="form-control mr-3" type="text" style="flex: 1;">
+                  <input id="inputField" name="item" autofocus autocomplete="off" class="form-control mr-3" type="text" style="flex: 1;">
                   <button class="btn btn-primary">Add New Item</button>
                 </div>
               </form>
@@ -63,7 +65,7 @@
                             <span class="item-text">${item.text}</span>
                             <div>
                               <button data-id="${item._id}" class="edit-me btn btn-secondary btn-sm mr-1">Edit</button>
-                              <button class="delete-me btn btn-danger btn-sm">Delete</button>
+                              <button data-id="${item._id}" class="delete-me btn btn-danger btn-sm">Delete</button>
                             </div>
                         </li>`
                 }).join('')}
@@ -81,7 +83,6 @@
 
   })
 
-
   app.post('/create-item', (req, res) => {
     db.collection('items').insertOne({
       text: req.body.item
@@ -90,8 +91,22 @@
     })
   })
 
+
   app.post('/update-item', (req, res) => {
-    db.collection('items').findOneAndUpdate({_id: new mongodb.ObjectId(req.body.id)}, {$set: {text: req.body.text}}, () => {
+    db.collection('items').findOneAndUpdate({
+      _id: new mongodb.ObjectId(req.body.id)
+    }, {
+      $set: {
+        text: req.body.text
+      }
+    }, () => {
+      res.send(console.log('Update success.'))
+    })
+  })
+
+
+  app.post('/delete-item', (req, res) => {
+    db.collection('items').deleteOne({_id: new mongodb.ObjectId(req.body.id)}, () => {
       res.send('success')
     })
   })
