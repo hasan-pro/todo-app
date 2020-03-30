@@ -10,7 +10,12 @@ let itemTemplate = (item) => {
         `
 }
 
+let HTMLTemplate = items.map((item) => {
+  return itemTemplate(item)
+}).join('')
 
+// Client side redering item.catch
+document.getElementById('item-list').insertAdjacentHTML('beforeend', HTMLTemplate)
 
 // Create Feature
 let createField = document.getElementById('create-field');
@@ -27,7 +32,7 @@ document.getElementById('create-form').addEventListener('submit', (e) => {
         console.log(err);
     })
   }
-  
+
 })
 
 document.addEventListener('click', (e) => {
