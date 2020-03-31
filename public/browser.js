@@ -10,6 +10,8 @@ let itemTemplate = (item) => {
         `
 }
 
+
+
 let HTMLTemplate = items.map((item) => {
   return itemTemplate(item)
 }).join('')
@@ -20,18 +22,36 @@ document.getElementById('item-list').insertAdjacentHTML('beforeend', HTMLTemplat
 // Create Feature
 let createField = document.getElementById('create-field');
 
+// Check for item that has been already exist in database
+let isExist = (newItem) => {
+  let items = document.querySelectorAll('.item-text')
+  for (let i of items) {
+    if (i.innerText.toUpperCase() === newItem.value.toUpperCase()) return true;
+  }
+  return false;
+}
+
+
 document.getElementById('create-form').addEventListener('submit', (e) => {
   e.preventDefault();
-  if (createField.value.length > 0) {
-    axios.post('/create-item', { text: createField.value}).then((response) => {
-        // Create the HTML for a new item.
-        document.getElementById('item-list').insertAdjacentHTML("beforeend", itemTemplate(response.data))
-        createField.value = "";
-        createField.focus();
-    }).catch((err) => {
-        console.log(err);
-    })
-  }
+
+    if (isExist(createField)) {
+      alert('Item is already exist!')
+      createField.value = "";
+      createField.focus();
+    } else {
+      if (createField.value.length > 0) {
+        axios.post('/create-item', { text: createField.value}).then((response) => {
+            // Create the HTML for a new item.
+            document.getElementById('item-list').insertAdjacentHTML("beforeend", itemTemplate(response.data))
+            createField.value = "";
+            createField.focus();
+        }).catch((err) => {
+            console.log(err);
+        })
+      }
+    }
+
 
 })
 
