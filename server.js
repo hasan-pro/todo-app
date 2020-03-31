@@ -2,9 +2,9 @@
   const mongodb = require('mongodb')
   const uri = "mongodb+srv://todoAppUser:12211221@cluster0-lr1bi.mongodb.net/TodoApp?retryWrites=true&w=majority"
 
+  // sanitize-html package is for cleaning-up create item text.
+  const sanitizeHTML = require('sanitize-html')
   const app = express()
-
-
   const port = 5500;
 
   app.use(express.static('public'))
@@ -90,8 +90,9 @@
   })
 
   app.post('/create-item', (req, res) => {
+    let safeText = sanitizeHTML(req.body.text, {allowedTags: [], allowedAttributes: {}})
     db.collection('items').insertOne({
-      text: req.body.text
+      text: safeText
     }, (err, result) => {
       res.json(result.ops[0])
     })
@@ -99,11 +100,12 @@
 
 
   app.post('/update-item', (req, res) => {
+    let safeText = sanitizeHTML(req.body.text, {allowedTags: [], allowedAttributes: {}})
     db.collection('items').findOneAndUpdate({
       _id: new mongodb.ObjectId(req.body.id)
     }, {
       $set: {
-        text: req.body.text
+        text: safeText
       }
     }, () => {
       res.send(console.log('Update success.'))
