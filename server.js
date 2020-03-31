@@ -31,7 +31,19 @@
     extended: false
   }))
 
+  // function for protect website using password
+  let passwordProtect = (req, res, next) => {
+    res.set('WWW-Authenticate', 'Basic realm="Simple Todo App"')
+    console.log(req.headers.authorization);
+    if (req.headers.authorization === 'Basic YWRtaW46dG9kbyQxMjM0') {
+      next();
+    } else {
+      res.status(401).send('Authenticaion required.')
+    }
+  }
 
+  // To protect all route
+  app.use(passwordProtect);
 
   app.get('/', (req, res) => {
     db.collection('items').find().toArray((err, items) => {
