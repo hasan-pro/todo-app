@@ -5,8 +5,8 @@
   // sanitize-html package is for cleaning-up create item text.
   const sanitizeHTML = require('sanitize-html')
   const app = express()
-  const port = 5500;
-
+  const port = process.env.PORT || 5500
+  
   app.use(express.static('public'))
 
   // connect to mongodb

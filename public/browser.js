@@ -55,9 +55,9 @@ document.getElementById('create-form').addEventListener('submit', (e) => {
 
 })
 
-document.addEventListener('click', (e) => {
 
-  // Update Feature
+// Update Feature
+document.addEventListener('click', (e) => {
     if (e.target.classList.contains('edit-me')) {
         let targetEl = e.target.parentElement.parentElement.querySelector('.item-text');
         let userInput = prompt('Enter your desired new text.', targetEl.innerHTML)
