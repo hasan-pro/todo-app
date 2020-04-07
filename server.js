@@ -1,18 +1,19 @@
   const express = require('express');
   const mongodb = require('mongodb')
-  const uri = "mongodb+srv://todoAppUser:12211221@cluster0-lr1bi.mongodb.net/TodoApp?retryWrites=true&w=majority"
+  const dotenv = require('dotenv');
+  dotenv.config();
 
   // sanitize-html package is for cleaning-up create item text.
   const sanitizeHTML = require('sanitize-html')
   const app = express()
   const port = process.env.PORT || 5500
-  
+
   app.use(express.static('public'))
 
   // connect to mongodb
 
   let db;
-  mongodb.connect(uri, {
+  mongodb.connect(process.env.URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
   }, (err, client) => {
@@ -58,6 +59,7 @@
           <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
           </head>
           <body>
+
           <div class="container">
             <h1 class="display-4 text-center py-1">To-Do App</h1>
 

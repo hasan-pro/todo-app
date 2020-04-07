@@ -15,7 +15,6 @@ let itemTemplate = (item) => {
 let HTMLTemplate = items.map((item) => {
   return itemTemplate(item)
 }).join('')
-
 // Client side redering item.catch
 document.getElementById('item-list').insertAdjacentHTML('beforeend', HTMLTemplate)
 
